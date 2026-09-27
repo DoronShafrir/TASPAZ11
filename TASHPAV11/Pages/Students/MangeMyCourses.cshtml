@@ -1,0 +1,95 @@
+﻿@page
+@using TASHPAV11.H_Model
+@model TASHPAV11.Pages.Students.MangeMyCoursesModel
+@{
+}
+
+<div class="container my-5">
+    <div class="d-flex justify-content-between gap-3">
+        <form method="get" asp-page-handler="RenderCourses">
+            <button type="submit" value="Show All Courses" class="btn btn-primary" >Show All Courses</button>
+        </form>
+        <form method="post" asp-page-handler="ShowAddCourses">
+            <button type="submit" value="Add Course" class="btn btn-primary">Add Course</button>
+        </form>
+        <form method="post" asp-page-handler="ShowDeleteCourse">
+            <button type="submit" value="Delete Course" class="btn btn-primary">Delete Course</button>
+        </form>
+    </div>
+    @* <form method="post" asp-page-handler="ShowAddCourses">
+        <div id="List" style="@Model.DisplayList">@Html.Raw(@Model.List)</div>
+    </form> *@
+</div>
+@* Show table of course to the specific Stdent *@
+<div id="CourseTable" style="@Model.DisplayList">
+
+
+    @if (Model.List != null && Model.List.Count > 0)
+    {
+        <table class='table table-bordered table-striped'>
+            <tr>
+                <th>ID</th>
+                <th>Student Name</th>
+                <th>Course Name</th>
+                <th>Teacher </th>
+
+            </tr>
+
+            @foreach (Student_Select student in Model.List)
+            {
+                <tr>
+                    <td>@student.Id</td>
+                    <td>@student.Name</td>
+                    <td>@student.CourseName</td>
+                    <td>@student.TeacherName</td>
+                </tr>
+            }
+
+        </table>
+    }
+</div>
+<div class="button-container">
+    <div class="row">
+        @* Add Insert part *@
+        <form method="post" asp-page-handler="InsertCourse">
+            <div id="active_input" style="@Model.active_input">
+                @if (Model.courseList != null && Model.courseList.Count > 0)
+                {
+                    <select id="CourseToAdd" name="CourseToAdd" class="input_field">
+                        <option value="" disabled selected>Choose between the options</option>
+                      
+                        @foreach (var course in Model.courseList)
+                        {
+                            <option value="@course.CourseNumber">
+                                @course.CourseName  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                                Course Number: @course.CourseNumber   &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Teacher: @course.ResponsibleTeacher
+                            </option>
+                         }
+                         </select>
+                    
+                }
+                <button type="submit" value="Submit" id="submitNewButton" style="@Model.insert_button">
+                    Insert
+                </button>
+                <div style="color: red; font-size: 1.0em; position: absolute">
+                    @Model.insertMSG
+                </div>
+            </div>
+        </form>
+    </div>
+    @* Delete part *@
+    <form method="post" asp-page-handler="DeleteCourse">
+        <div id="delete_input" style="@Model.delete_input">
+            <input type="text" id="deleteCourseName" class="input_field" placeholder="Course Name to Remove" />
+            <input type="text" id="deleteCourseNumber" class="input_field" placeholder="Course Number to Remove" />
+            <input type="text" id="deleteCourseTeacher" class="input_field" placeholder="Teacher to Remove" />
+        </div>
+        <div>
+            <input type="button" value="Delete" id="deleteButton" style="@Model.deleteButton" />
+            <div style="color: red; font-size: 1.0em; position: absolute">
+                @Model.deleteMSG
+            </div>
+        </div>
+    </form>
+</div>
+
