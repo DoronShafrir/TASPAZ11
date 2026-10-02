@@ -1,17 +1,18 @@
 ﻿
 @page
+@using TASHPAV11.App_Code
 @model TASHPAV11.Pages.Admin.ManagePeopeleModel
 <script src="~/js/AdminJS.js"></script>
 @{
 }
-
+@using static System.Runtime.InteropServices.JavaScript.JSType;
  @{
  var sessionAdmin = HttpContext.Session.GetString("Admin");
  if(sessionAdmin != "Admin")
  {
      Response.Redirect("/Index");
 }}
-< script src = "c:\users\user\onedrive\dsh\doron\sources\repos\tashpav11\tashpav11\wwwroot\js\adminjs.js" ></ script >
+
 <div class="container my-5">
     <div class="d-flex justify-content-between gap-3">
         <form method="get" asp-page-handler="RenderPeople">
@@ -80,7 +81,8 @@
         </table>
         <script>
             //filter out all rows out of criteria
-            document.getElementById("btnSearch").addEventListener("click", function () {
+            document.getElementById("btnSearch").addEventListener("click", 
+            function () {
                 let filter = document.getElementById("myInput").value.toLowerCase();
                 let rows = document.querySelectorAll("#AllPeopleTable tr");
 

@@ -1,0 +1,27 @@
+﻿@page
+@model TASHPAV11.Pages.Admin.IndexModel
+@{
+}
+@{
+    var sessionAdmin = HttpContext.Session.GetString("Admin");
+    if (sessionAdmin != "Admin")
+    {
+        Response.Redirect("/Index");
+    }
+}
+<script src = $"~/js/adminjs.js";></script >
+<div class="container my-5">
+    <div class="d-flex justify-content-between gap-3">
+        <form method="get" asp-page-handler="RenderPeople">
+            <button type="submit" value="Show All People" class="btn btn-primary">Show All People</button>
+        </form>
+
+        <div>
+            <input type="text" id="myInput" placeholder="Search...">
+            <button id="btnSearch" class="btn btn-primary">Search</button>
+        </div>
+        <div>
+            <button id="AddPerson" class="btn btn-primary" onmouseup="TeachersOnly()">Show Teachers Only</button>
+        </div>
+    </div>
+    <div><br /><br /><br /></div>

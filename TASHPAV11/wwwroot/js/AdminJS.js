@@ -7,7 +7,7 @@
         // skip header
 
        
-        let cell = row.querySelector("td:nth-child(7)"); // Family Name column
+        let cell = row.querySelector("td:nth-child(7)"); // Teacher/Student  column
         if (!cell) return; // skip header
         let text = cell.innerText.toLowerCase();
 

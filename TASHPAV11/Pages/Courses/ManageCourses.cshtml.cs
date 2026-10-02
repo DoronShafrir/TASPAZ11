@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TASHPAV11.Mapping;
 using TASHPAV11.Model;
+using CWP = TASHPAV11.Model.CourseWithPerson;
 
 namespace TASHPAV11.Pages.Courses
 {
@@ -16,11 +17,15 @@ namespace TASHPAV11.Pages.Courses
         public string DisplayList { get; set; }
         public string insertMSG { get; set; }
         public string insert_button { get; set; }
+        [BindProperty]
         public string deleteMSG { get; set; }
-        public Coursess List { get; set; } = new Coursess();
+        public CourseWithPersonList List { get; set; } = new CourseWithPersonList();
         public Course course { get; set; } = new Course();
         [BindProperty]
         public Course dCourse { get; set; }
+        [BindProperty]
+        public CWP newCourse { get; set; }
+        
 
 
         public void OnGet()
@@ -60,14 +65,12 @@ namespace TASHPAV11.Pages.Courses
             delete_input = "display:block";
             deleteButton = "display:block";
         }
-        public void OnPostInsertCourse(string newCourseName, string newCourseNumber, string newCourseTeacher)
+        public void OnPostInsertCourse(string Department)
         {
-            Course newCourse = new Course();
+            if (Department == "MathReq") { newCourse.Course.MathReq = true; newCourse.Course.ComuterReq = false; newCourse.Course.AdvancedSelection = false; }
+            if (Department == "ComputerReq") { newCourse.Course.MathReq = false; newCourse.Course.ComuterReq = true; newCourse.Course.AdvancedSelection = false; }
+            if (Department == "Advance") { newCourse.Course.MathReq = false; newCourse.Course.ComuterReq = false; newCourse.Course.AdvancedSelection = true; }
             CoursesDB db = new CoursesDB();
-            newCourse.CourseName = newCourseName;
-            newCourse.CourseNumber = newCourseNumber;
-            newCourse.Name = newCourseTeacher;
-
             int records = db.Insert(newCourse);
             delete_input = "display:none";
             deleteButton = "display:none";

@@ -1,8 +1,12 @@
 ﻿@page
 @using TASHPAV11.Model
 @model TASHPAV11.Pages.Courses.ManageCoursesModel
-@{
+@using CWP = TASHPAV11.Model.CourseWithPerson
+@{   
 }
+
+
+
 <div class="container my-5">
     <div class="d-flex justify-content-between gap-3">
         <form method="get" asp-page-handler="RenderCourses">
@@ -36,13 +40,13 @@
 
             </tr>
 
-            @foreach (Course course in Model.List)
+            @foreach (CWP course in Model.List)
             {
                 <tr>
-                    <td>@course.CId</td>
-                    <td>@course.CourseName</td>
-                    <td>@course.CourseNumber</td>
-                    <td>@course.Name</td>
+                    <td>@course.Course.CId</td>
+                    <td>@course.Course.CourseName</td>
+                    <td>@course.Course.CourseNumber</td>
+                    <td>@course.Person.Name</td>
                 </tr>
             }
 
@@ -54,10 +58,19 @@
         @* Add Insert part *@
         <form method="post" asp-page-handler="InsertCourse">
             <div id="active_input" style="@Model.active_input">
-                <input type="text" id="newCourseName" name="newCourseName" class="input_field" placeholder="Course Name" />
-                <input type="text" id="newCourseNumber" name="newCourseNumber" class="input_field" placeholder="Course Number" />
-                <input type="text" id="newCourseTeacher" name="newCourseTeacher" class="input_field" placeholder="Teacher" />
-
+                <input type="text" id="newCourseName" asp-for="newCourse.Course.CourseName" class="input_field" placeholder="Course Name" />
+                <input type="number" id="newCourseNumber" asp-for="newCourse.Course.CourseNumber" class="input_field" placeholder="Course Number" />
+                <input type="number" id="newCoursePererequisit" asp-for="newCourse.Course.Prerequisites_1" class="input_field" placeholder="Pererequisit 1" />
+                <input type="number" id="newCourseCredit" asp-for="newCourse.Course.Credits" class="input_field" placeholder="Course Credit" />
+                <input type="text" id="newCourseTeacher" asp-for="newCourse.Person.Name" class="input_field" placeholder="Teacher" />
+                
+                <label for="MathReq">Math Requirement</label>
+                <input type="radio" id="MathReq" name="Department" class="input_field" value="MathReq" checked />
+                <label for="ComputReq">Computer</label>
+                <input type="radio" id="ComputReq" name="Department" class="input_field" value="ComputerReq" />
+                <label for="Advance">Advance</label>
+                <input type="radio" id="Advance" name="Department" class="input_field" value="Advance" />
+               
                 <button type="submit" value="Insert" id="submitNewButton" style="@Model.insert_button">
                     Insert
                 </button>
@@ -72,7 +85,7 @@
         <div id="delete_input" style="@Model.delete_input">
             <input type="text" asp-for="dCourse.CourseName" class="input_field" placeholder="Course Name to Remove" />
             <input type="text" asp-for="dCourse.CourseNumber" class="input_field" placeholder="Course Number to Remove" />
-            <input type="text" asp-for="dCourse.ResponsibleTeacher" class="input_field" placeholder="Teacher to Remove" />
+            
         </div>
         <div>
             <input type="submit" value="Delete" id="deleteButton" style="@Model.deleteButton" />

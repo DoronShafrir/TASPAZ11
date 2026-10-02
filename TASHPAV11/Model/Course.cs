@@ -1,11 +1,17 @@
 ﻿namespace TASHPAV11.Model
 {
-    public class Course : Person
+    public class Course 
     {
         public int CId { get; set; }
         public string CourseName { get; set; }
-        public string CourseNumber { get; set; }
-        public int ResponsibleTeacher { get; set; }
+        public int CourseNumber { get; set; }
+        public int Prerequisites_1 { get; set; }
+        public int Prerequisites_2 { get; set; }
+        public int Prerequisites_3 { get; set; }
+        public int Credits { get; set; }
+        public bool MathReq { get; set; }
+        public bool ComuterReq { get; set; }
+        public bool AdvancedSelection { get; set; }
 
     }
 

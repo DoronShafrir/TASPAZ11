@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.OleDb;
 using System.Security.Cryptography;
 using TASHPAV11.App_Code;
-using TASHPAV11.H_Model;
+
 using TASHPAV11.Model;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 //using System.Data.SqlClient;
@@ -54,7 +54,7 @@ namespace TASHPAV11.Pages.Login
                 string IsAdmin = person.Admin == true ? "Admin" : "NotAdmin";
                 int SId = person.Teacher == true ? 0 : person.Id;
                
-                SIdP.StudentId = SId;
+                //SIdP.StudentId = SId;
 
                 HttpContext.Session.SetString("Admin", IsAdmin);
 

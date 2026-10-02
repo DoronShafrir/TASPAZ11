@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TASHPAV11.H_Model;
 using TASHPAV11.Mapping;
 using TASHPAV11.Model;
 
@@ -19,8 +18,8 @@ namespace TASHPAV11.Pages.Students
         public string insertMSG { get; set; }
         public string insert_button { get; set; }
         public string deleteMSG { get; set; }
-        public Studentss_Select List { get; set; } = new Studentss_Select();
-        public Student_Select Student { get; set; } = new Student_Select();
+        //public Studentss_Select List { get; set; } = new Studentss_Select();
+        //public Student_Select Student { get; set; } = new Student_Select();
         [BindProperty]
         public Coursess courseList { get; set; } = new Coursess();
 
@@ -29,44 +28,44 @@ namespace TASHPAV11.Pages.Students
 
         public void OnGet()
         {
-            active_input = "display:none";
-            submitNewButton = "display:none";
-            DisplayList = "display:block";
-            delete_input = "display:none";
-            deleteButton = "display:none";
-            StudentsDB db = new StudentsDB();
-            List = db.SelectAll();
+            //active_input = "display:none";
+            //submitNewButton = "display:none";
+            //DisplayList = "display:block";
+            //delete_input = "display:none";
+            //deleteButton = "display:none";
+            //StudentsDB db = new StudentsDB();
+            //List = db.SelectAll();
 
 
         }
-        public void OnPostRenderCourses()
-        {
-            active_input = "display:none";
-            submitNewButton = "display:none";
-            DisplayList = "display:block";
-            delete_input = "display:none";
-            deleteButton = "display:none";
-            StudentsDB db = new StudentsDB();
-            List = db.SelectAll();
-        }
+        //public void OnPostRenderCourses()
+        //{
+        //    active_input = "display:none";
+        //    submitNewButton = "display:none";
+        //    DisplayList = "display:block";
+        //    delete_input = "display:none";
+        //    deleteButton = "display:none";
+        //    StudentsDB db = new StudentsDB();
+        //    List = db.SelectAll();
+        //}
 
         public void OnPostShowAddCourses()
         {
-            DisplayList = "display:none";
-            active_input = "display:block";
-            insert_button = "display:block";
-            delete_input = "display:none";
-            deleteButton = "display:none";
-            CoursesDB courseList = new CoursesDB();
-            this.courseList = courseList.SelectAll();
+            //DisplayList = "display:none";
+            //active_input = "display:block";
+            //insert_button = "display:block";
+            //delete_input = "display:none";
+            //deleteButton = "display:none";
+            //CoursesDB courseList = new CoursesDB();
+            //this.courseList = courseList.SelectAll();
         }
         public void OnPostShowDeleteCourse()
         {
-            DisplayList = "display:none";
-            active_input = "display:none";
-            insert_button = "display:none";
-            delete_input = "display:block";
-            deleteButton = "display:block";
+            //DisplayList = "display:none";
+            //active_input = "display:none";
+            //insert_button = "display:none";
+            //delete_input = "display:block";
+            //deleteButton = "display:block";
         }
 
         public void OnPostInsertCourse(int CourseToAdd)
