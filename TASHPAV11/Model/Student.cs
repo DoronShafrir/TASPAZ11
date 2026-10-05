@@ -1,6 +1,6 @@
 ﻿namespace TASHPAV11.Model
 {
-    public class Student : Course
+    public class Student : Person
     {
         public int Id { get; set; }
         public int SId { get; set; }

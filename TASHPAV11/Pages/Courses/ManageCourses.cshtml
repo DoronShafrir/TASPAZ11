@@ -1,7 +1,8 @@
 ﻿@page
+
+
 @using TASHPAV11.Model
 @model TASHPAV11.Pages.Courses.ManageCoursesModel
-@using CWP = TASHPAV11.Model.CourseWithPerson
 @{   
 }
 
@@ -40,7 +41,7 @@
 
             </tr>
 
-            @foreach (CWP course in Model.List)
+            @foreach (var course in Model.List)
             {
                 <tr>
                     <td>@course.Course.CId</td>

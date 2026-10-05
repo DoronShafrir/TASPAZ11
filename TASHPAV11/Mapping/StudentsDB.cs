@@ -1,7 +1,9 @@
 ﻿using System.Data.OleDb;
 using System.Security.Cryptography;
+using System.Transactions;
 using System.Xml.Linq;
 using TASHPAV11.App_Code;
+using TASHPAV11.HModel;
 using TASHPAV11.Model;
 
 namespace TASHPAV11.Mapping
@@ -9,61 +11,70 @@ namespace TASHPAV11.Mapping
     public class StudentsDB
     {
         private readonly string connectionString = Imp_Data.ConString;
-       
-         
-        //public Studentss_Select SelectAll()
-        //{
-            //int SId = SIdP.StudentId;
-            //Studentss_Select students = new Studentss_Select();
-            //Student_Select student = new Student_Select();
-            //int count = 0;
-            //string sql1 = $"SELECT student_person.[Id] AS StudentId, student_person.[Name] AS StudentName, " +
-            //   "c.[CourseName], teacher_person.[Name] AS TeacherName " +
-            //   "FROM (([Student] " +
-            //   "INNER JOIN [Person] AS student_person ON [Student].[SId] = student_person.[Id]) " +
-            //   "INNER JOIN [Courses] AS c ON [Student].[CourseId] = c.[CId]) " +
-            //    " INNER JOIN [Person] AS teacher_person ON c.[ResponsibleTeacher] = teacher_person.[Id]"; 
-            //string sql2 = $"WHERE  student_person.[Id] = {SId};";
-            //string sql = sql1 + sql2;
-            //using var connection = new OleDbConnection(connectionString);
-            //using var command = new OleDbCommand(sql, connection);
-
-            //connection.Open();
-
-            //using var reader = command.ExecuteReader();
-
-            //while (reader.Read())
-            //{
-            //    count++;
-            //   student = new Student_Select()
-            //    {
-            //        Id = (int)reader["StudentId"],
-            //        Name = reader["StudentName"].ToString(),
-            //        CourseName = reader["CourseName"].ToString(),
-            //       TeacherName = reader["TeacherName"].ToString()
-
-            //   };
-        //    //students.Add(student);
-        //}
-        //    return students;
-        //}
 
 
-        public int Insert(int CourseId)
+        public CourseWithPersonList SelectAll(int studentId)
         {
-            //int SId = SIdP.StudentId;
-            int records = 0;
-            //int arg1 = SId;
-            int arg2 = CourseId;
-            //if (arg1 != 0 && arg2 != 0)
-            //{ 
-            //string sql = $"INSERT INTO Student (SId, CourseId) VALUES ({arg1},{arg2})";
-            //using var connection = new OleDbConnection(connectionString);
-            //using var command = new OleDbCommand(sql, connection);
-            //connection.Open();
+            CourseWithPersonList courses = new CourseWithPersonList();
+            string sql = $"SELECT  Courses.CId, Courses.CourseName, Courses.CourseNumber, Person.Name," +
+                                " Courses.Prerequisites_1, Courses.Prerequisites_2, Courses.Prerequisites_3, Courses.Credits, Courses.MathReq, Courses.ComuterReq, Courses.AdvancedSelection" +
+                                " FROM  ( ( [Student] INNER JOIN [Courses] ON [Courses].[CId] = [Student].[CourseId] )" +
+                                "INNER JOIN [CourseTeacher] ON [Courses].[CId] = [CourseTeacher].[CourseId] )" +
+                                " INNER JOIN [Person] ON [CourseTeacher].[TeacherId] = [Person].[Id] " +
+                                $" WHERE {studentId} = [Student].[SId];" ;
 
-            //records = (int)command.ExecuteNonQuery();
-            //}
+            using var connection = new OleDbConnection(connectionString);
+            using var command = new OleDbCommand(sql, connection);
+
+            connection.Open();
+
+            using var reader = command.ExecuteReader();
+
+            while (reader!.Read())
+            {
+                CourseWithPerson course = new CourseWithPerson();
+                {
+                    course.Course = new Course
+                    {
+                        CId = int.Parse(reader["CId"].ToString()),
+                        CourseName = reader["CourseName"].ToString(),
+                        CourseNumber = int.Parse(reader["CourseNumber"].ToString()),
+                        Prerequisites_1 = int.Parse(reader["Prerequisites_1"].ToString()),
+                        Prerequisites_2 = int.Parse(reader["Prerequisites_2"].ToString()),
+                        Prerequisites_3 = int.Parse(reader["Prerequisites_3"].ToString()),
+                        Credits = reader["Credits"] != DBNull.Value ? int.Parse(reader["Credits"].ToString()) : 0,
+                        MathReq = reader["MathReq"] != DBNull.Value ? bool.Parse(reader["MathReq"].ToString()) : false,
+                        ComuterReq = reader["ComuterReq"] != DBNull.Value ? bool.Parse(reader["ComuterReq"].ToString()) : false,
+                        AdvancedSelection = reader["AdvancedSelection"] != DBNull.Value ? bool.Parse(reader["AdvancedSelection"].ToString()) : false
+                    };
+                    course.Person = new Person
+                    {
+                        Name = reader["Name"].ToString()
+                    };
+                }
+                courses.Add(course);
+            }
+
+            return courses;
+        }
+
+        public int Insert(int SId, int CourseId)
+        {
+            
+            int records = 0;
+            
+            string sql = $"INSERT INTO Student ([SId], [CourseId]) VALUES (?,?);";
+            using var connection = new OleDbConnection(connectionString);
+            using (OleDbCommand cmd = new OleDbCommand(sql, connection))
+            {
+                cmd.Parameters.AddWithValue("?", SId.ToString());
+                cmd.Parameters.AddWithValue("?", CourseId.ToString());
+
+                connection.Open();
+
+                records = (int)cmd.ExecuteNonQuery();
+            }
+            
             return records;
         }
 

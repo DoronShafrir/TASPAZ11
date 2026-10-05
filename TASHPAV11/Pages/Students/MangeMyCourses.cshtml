@@ -23,28 +23,32 @@
 <div id="CourseTable" style="@Model.DisplayList">
 
 
-    @* @if (Model.List != null && Model.List.Count > 0)
+    @if (Model.List != null && Model.List.Count > 0)
     {
+       
         <table class='table table-bordered table-striped'>
             <tr>
-                <th>ID</th>
+                <th>Course ID</th>
                 <th>Student Name</th>
                 <th>Course Name</th>
                 <th>Teacher </th>
+                
 
-            </tr> *@
+            </tr> 
 
-            @* @foreach (Student_Select student in Model.List)
+             @foreach (var student in Model.List)
             {
                 <tr>
-                    <td>@student.Id</td>
-                    <td>@student.Name</td>
-                    <td>@student.CourseName</td>
-                    <td>@student.TeacherName</td>
+                    <td>@student.Course.CId</td>
+                    <td>@Model.studentName</td>
+                    <td>@student.Course.CourseName</td>
+                    <td>@student.Person.Name</td>
+                   
                 </tr>
-            } *@
+            } 
 
         </table>
+       
     }
 </div>
 <div class="button-container">
@@ -52,7 +56,7 @@
         @* Add Insert part *@
         <form method="post" asp-page-handler="InsertCourse">
             <div id="active_input" style="@Model.active_input">
-                @if (Model.courseList != null && Model.courseList.Count > 0)
+                @* @if (Model.courseList != null && Model.courseList.Count > 0)
                 {
                     <select id="CourseToAdd" name="CourseToAdd" class="input_field">
                         <option value="" disabled selected>Choose between the options</option>
@@ -72,7 +76,43 @@
                 </button>
                 <div style="color: red; font-size: 1.0em; position: absolute">
                     @Model.insertMSG
-                </div>
+                </div> *@
+                @if (Model.List != null && Model.List.Count > 0)
+                {
+                    <table class='table table-bordered table-striped'>
+                        <tr>
+                            <th>ID</th>
+                            <th>Course Name</th>
+                            <th>Course Number</th>
+                            <th>Teacher </th>
+                            <th>Add Course</th>
+
+                        </tr>
+
+                        @foreach (var course in Model.List)
+                        {
+                            <tr>
+                                <td>@course.Course.CId</td>
+                                <td>@course.Course.CourseName</td>
+                                <td>@course.Course.CourseNumber</td>
+                                <td>@course.Person.Name</td>
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        <form method="post" asp-page-handler="InsertCourse" style="display:inline;">
+                                            <input type="hidden" name="CourseToAdd" value="@course.Course.CId" />
+                                            <button type="submit" class="btn btn-light btn-sm"
+                                                    onclick="return confirm('Are you sure you want to add this course');">
+                                                Add
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                }
             </div>
         </form>
     </div>

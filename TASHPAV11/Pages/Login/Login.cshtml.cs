@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
@@ -52,17 +53,14 @@ namespace TASHPAV11.Pages.Login
                 person.UserName = ds.Tables[0].Rows[0]["UserName"].ToString();
                 person.Admin = bool.Parse(ds.Tables[0].Rows[0]["Admin"].ToString());
                 string IsAdmin = person.Admin == true ? "Admin" : "NotAdmin";
-                int SId = person.Teacher == true ? 0 : person.Id;
-               
-                //SIdP.StudentId = SId;
+                //int SId = person.Teacher == true ? 0 : person.Id;
 
                 HttpContext.Session.SetString("Admin", IsAdmin);
-
-
+                HttpContext.Session.SetString("PersonId", person.Id.ToString());
                 HttpContext.Session.SetString("Username", person.UserName);
                 HttpContext.Session.SetString("FirstName", person.Name);
                 HttpContext.Session.SetString("LastName", person.FName);
-                HttpContext.Session.SetString("SId", SId.ToString());
+               
                 return RedirectToPage("/Index");
             }
             else

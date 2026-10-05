@@ -4,8 +4,9 @@ using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Security.Cryptography;
 using TASHPAV11.App_Code;
+using TASHPAV11.HModel;
 using TASHPAV11.Model;
-using CWP = TASHPAV11.Model.CourseWithPerson;
+using CWP = TASHPAV11.HModel.CourseWithPerson;
 
 namespace TASHPAV11.Mapping
 {
@@ -18,9 +19,8 @@ namespace TASHPAV11.Mapping
             CourseWithPersonList courses = new CourseWithPersonList();
             const string sql = "SELECT  Courses.CId, Courses.CourseName, Courses.CourseNumber, Person.Name," +
                                 " Courses.Prerequisites_1, Courses.Prerequisites_2, Courses.Prerequisites_3, Courses.Credits, Courses.MathReq, Courses.ComuterReq, Courses.AdvancedSelection" +
-                                " FROM  ( ( ( CourseTeacher INNER JOIN [Courses] ON [Courses].[CId] = [CourseTeacher].[CourseId] )" +
-                                " INNER JOIN [Teacher] ON [Teacher].[Id] = [CourseTeacher].[TeacherId])" +
-                                " INNER JOIN Person ON [Teacher].[TID] = [Person].[Id] );";
+                                " FROM  ( ( CourseTeacher INNER JOIN [Courses] ON [Courses].[CId] = [CourseTeacher].[CourseId] )" +
+                                " INNER JOIN [Person] ON [CourseTeacher].[TeacherId] = [Person].[Id] );";
 
             using var connection = new OleDbConnection(connectionString);
             using var command = new OleDbCommand(sql, connection);

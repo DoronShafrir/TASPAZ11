@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TASHPAV11.Mapping;
 using TASHPAV11.Model;
-using CWP = TASHPAV11.Model.CourseWithPerson;
+using CWP = TASHPAV11.HModel.CourseWithPerson;
 
 namespace TASHPAV11.Pages.Courses
 {
