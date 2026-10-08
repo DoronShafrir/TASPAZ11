@@ -16,6 +16,8 @@ namespace TASHPAV11.Pages.Students
         public string msg { get; set; }
         [BindProperty]
         public CourseWithPersonList List { get; set; }
+        [BindProperty]
+        public CourseWithPerson course1 { get; set; }
         public string DisplayList { get; set; }
         public string insertMSG { get; set; }
         public string insert_button { get; set; }
@@ -41,7 +43,7 @@ namespace TASHPAV11.Pages.Students
             studentName = (HttpContext.Session.GetString("Username")).ToString();
             int studentId = int.Parse((HttpContext.Session.GetString("PersonId")).ToString());
             StudentsDB db = new StudentsDB();
-            List = db.SelectAll(studentId);
+            List = db.StudentSelectAll(studentId, true);
 
 
         }
@@ -55,7 +57,7 @@ namespace TASHPAV11.Pages.Students
             studentName = (HttpContext.Session.GetString("Username")).ToString();
         int studentId = int.Parse((HttpContext.Session.GetString("PersonId")).ToString());
         StudentsDB db = new StudentsDB();
-        List = db.SelectAll(studentId);
+        List = db.StudentSelectAll(studentId,true);
         }
 
         public void OnPostShowAddCourses()
@@ -65,16 +67,17 @@ namespace TASHPAV11.Pages.Students
             insert_button = "display:block";
             delete_input = "display:none";
             deleteButton = "display:none";
-            CoursesDB courseList = new CoursesDB();
-            List = courseList.SelectAll();
+            int studentId = int.Parse((HttpContext.Session.GetString("PersonId")).ToString());
+            StudentsDB db = new StudentsDB();
+            List = db.StudentSelectAll(studentId, false);
         }
         public void OnPostShowDeleteCourse()
         {
-            //DisplayList = "display:none";
-            //active_input = "display:none";
-            //insert_button = "display:none";
-            //delete_input = "display:block";
-            //deleteButton = "display:block";
+            DisplayList = "display:none";
+            active_input = "display:none";
+            insert_button = "display:none";
+            delete_input = "display:block";
+            deleteButton = "display:block";
         }
 
         public void OnPostInsertCourse(int CourseToAdd)

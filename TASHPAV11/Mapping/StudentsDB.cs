@@ -13,15 +13,27 @@ namespace TASHPAV11.Mapping
         private readonly string connectionString = Imp_Data.ConString;
 
 
-        public CourseWithPersonList SelectAll(int studentId)
+        public CourseWithPersonList StudentSelectAll(int studentId, bool except)
         {
             CourseWithPersonList courses = new CourseWithPersonList();
-            string sql = $"SELECT  Courses.CId, Courses.CourseName, Courses.CourseNumber, Person.Name," +
-                                " Courses.Prerequisites_1, Courses.Prerequisites_2, Courses.Prerequisites_3, Courses.Credits, Courses.MathReq, Courses.ComuterReq, Courses.AdvancedSelection" +
-                                " FROM  ( ( [Student] INNER JOIN [Courses] ON [Courses].[CId] = [Student].[CourseId] )" +
-                                "INNER JOIN [CourseTeacher] ON [Courses].[CId] = [CourseTeacher].[CourseId] )" +
-                                " INNER JOIN [Person] ON [CourseTeacher].[TeacherId] = [Person].[Id] " +
-                                $" WHERE {studentId} = [Student].[SId];" ;
+            string sql = string.Empty;
+            if (except)
+            {
+                sql = $"SELECT  Courses.CId, Courses.CourseName, Courses.CourseNumber, Person.Name," +
+                               " Courses.Prerequisites_1, Courses.Prerequisites_2, Courses.Prerequisites_3, Courses.Credits, Courses.MathReq, Courses.ComuterReq, Courses.AdvancedSelection" +
+                               " FROM  ( ( [Student] INNER JOIN [Courses] ON [Courses].[CId] = [Student].[CourseId] )" +
+                               "INNER JOIN [CourseTeacher] ON [Courses].[CId] = [CourseTeacher].[CourseId] )" +
+                               " INNER JOIN [Person] ON [CourseTeacher].[TeacherId] = [Person].[Id] " +
+                               $" WHERE {studentId} = [Student].[SId];";
+            }
+            else
+            {
+                sql = $"SELECT Courses.CId, Courses.CourseName, Courses.CourseNumber, Person.Name," +
+                               " Courses.Prerequisites_1, Courses.Prerequisites_2, Courses.Prerequisites_3, Courses.Credits, Courses.MathReq, Courses.ComuterReq, Courses.AdvancedSelection" +
+                               " FROM ( Courses INNER JOIN CourseTeacher ON Courses.CId = CourseTeacher.CourseId )" +
+                               " INNER JOIN Person ON CourseTeacher.TeacherId = Person.Id " +
+                              $"WHERE  Courses.CId NOT IN (SELECT Student.CourseId FROM Student WHERE Student.SId = {studentId}) ;";
+            }
 
             using var connection = new OleDbConnection(connectionString);
             using var command = new OleDbCommand(sql, connection);
@@ -60,9 +72,9 @@ namespace TASHPAV11.Mapping
 
         public int Insert(int SId, int CourseId)
         {
-            
+
             int records = 0;
-            
+
             string sql = $"INSERT INTO Student ([SId], [CourseId]) VALUES (?,?);";
             using var connection = new OleDbConnection(connectionString);
             using (OleDbCommand cmd = new OleDbCommand(sql, connection))
@@ -74,7 +86,7 @@ namespace TASHPAV11.Mapping
 
                 records = (int)cmd.ExecuteNonQuery();
             }
-            
+
             return records;
         }
 
