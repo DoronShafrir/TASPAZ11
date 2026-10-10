@@ -90,24 +90,25 @@ namespace TASHPAV11.Mapping
             return records;
         }
 
-        public int DeleteCourse(Course course)
+        public int DeleteCourse(int studentId, int CourseToDelete)
         {
             int records = 0;
-            //string arg1 = course.CourseName;
-            //string arg2 = course.CourseNumber;
-            //int arg3 = course.ResponsibleTeacher;
-            ////if (!(arg3 > 0)) return 0;
+            
+             string sql = "DELETE FROM Student" +
+                $" WHERE SId = ? AND CourseId = ? ; ";
 
-            //string sql = "DELETE FROM Courses  " +
-            //    $"WHERE CourseName ='{arg1}' OR CourseNumber = '{arg2}' OR ResponsibleTeacher = {arg3}; ";
+            using var connection = new OleDbConnection(connectionString);
+            using (OleDbCommand cmd = new OleDbCommand(sql, connection))
+            {
+                cmd.Parameters.AddWithValue("?", studentId.ToString());
+                cmd.Parameters.AddWithValue("?", CourseToDelete.ToString());
 
-            //using var connection = new OleDbConnection(connectionString);
-            //using var command = new OleDbCommand(sql, connection);
+                 connection.Open();
 
-            //connection.Open();
+            records = (int)cmd.ExecuteNonQuery();
+            }
 
-            //records = command.ExecuteNonQuery();
-
+            
 
             return records;
         }

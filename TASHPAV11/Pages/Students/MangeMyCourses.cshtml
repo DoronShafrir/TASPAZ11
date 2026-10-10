@@ -89,18 +89,16 @@
                                 </div>
                             </td>
                         </tr>
-                    }
-
+                        }
                 </table>
+                @Model.insertMSG
             }
         </div>
 
     </div>
-    @* Delete part *@
+    @* Delete Course part *@
     <div class="button-container">
-        <div class="row">
-            
-
+        <div class="row">        
             <div id="delete_input" style="@Model.delete_input">
 
                 @if (Model.List != null && Model.List.Count > 0)
@@ -124,9 +122,8 @@
                                 <td>@course.Person.Name</td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
-
-                                        <form method="post" asp-page-handler="InsertCourse" style="display:inline;">
-                                            <input type="hidden" name="CourseToAdd" value="@course.Course.CId" />
+                                        <form method="post" asp-page-handler="DeleteCourse" style="display:inline;">
+                                            <input type="hidden" name="CourseToDelete" value="@course.Course.CId" />
                                             <button type="submit" class="btn btn-light btn-sm"
                                                     onclick="return confirm('Are you sure you want to add this course');">
                                                Delete
@@ -136,8 +133,8 @@
                                 </td>
                             </tr>
                         }
-
                     </table>
+                    @Model.deleteMSG
                 }
             </div>
 

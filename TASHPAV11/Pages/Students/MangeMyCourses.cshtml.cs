@@ -8,7 +8,7 @@ namespace TASHPAV11.Pages.Students
 {
     public class MangeMyCoursesModel : PageModel
     {
-        
+
         public string active_input { get; set; }
         public string submitNewButton { get; set; }
         public string delete_input { get; set; }
@@ -22,11 +22,10 @@ namespace TASHPAV11.Pages.Students
         public string insertMSG { get; set; }
         public string insert_button { get; set; }
         public string deleteMSG { get; set; }
-        //public Studentss_Select List { get; set; } = new Studentss_Select();
-        //public Student_Select Student { get; set; } = new Student_Select();
+        
         [BindProperty]
         public Coursess courseList { get; set; } = new Coursess();
-        
+
 
         //[BindProperty]
         //public int CourseToAdd { get; set; }
@@ -50,14 +49,14 @@ namespace TASHPAV11.Pages.Students
         public void OnPostRenderCourses()
         {
             active_input = "display:none";
-        submitNewButton = "display:none";
+            submitNewButton = "display:none";
             DisplayList = "display:block";
             delete_input = "display:none";
             deleteButton = "display:none";
             studentName = (HttpContext.Session.GetString("Username")).ToString();
-        int studentId = int.Parse((HttpContext.Session.GetString("PersonId")).ToString());
-        StudentsDB db = new StudentsDB();
-        List = db.StudentSelectAll(studentId,true);
+            int studentId = int.Parse((HttpContext.Session.GetString("PersonId")).ToString());
+            StudentsDB db = new StudentsDB();
+            List = db.StudentSelectAll(studentId, true);
         }
 
         public void OnPostShowAddCourses()
@@ -78,6 +77,9 @@ namespace TASHPAV11.Pages.Students
             insert_button = "display:none";
             delete_input = "display:block";
             deleteButton = "display:block";
+            int studentId = int.Parse((HttpContext.Session.GetString("PersonId")).ToString());
+            StudentsDB db = new StudentsDB();
+            List = db.StudentSelectAll(studentId, true);
         }
 
         public void OnPostInsertCourse(int CourseToAdd)
@@ -91,25 +93,21 @@ namespace TASHPAV11.Pages.Students
                 OnPostRenderCourses();
             }
             else { insertMSG = "Could Not Add Course !!!"; }
+        }
 
-            //public void Insert(int Insert, int courseID)
-            //{
-
-
-            //    StudentsDB db = new StudentsDB();
-            //    int records = db.Insert(Insert, courseID);
-            //    delete_input = "display:none";
-            //    deleteButton = "display:none";
-            //    if (records == 1)
-            //    {
-            //        insert_button = "disply:none";
-            //        insertMSG = "Course Added Successfuly";
-            //    }
-            //    else { insertMSG = "Could Not Add Course !!!"; }
-            //    ;
-            //}
+        public void OnPostDeleteCourse(int CourseToDelete)
+        {
+            int studentId = int.Parse((HttpContext.Session.GetString("PersonId")).ToString());
+            StudentsDB db = new StudentsDB();
+            int records = db.DeleteCourse(studentId, CourseToDelete);
+            if (records == 1)
+            {
+                OnPostRenderCourses();
+            }
+            else { deleteMSG = "Could Not Delete Course !!!"; }
         }
     }
+
 }
 
 
