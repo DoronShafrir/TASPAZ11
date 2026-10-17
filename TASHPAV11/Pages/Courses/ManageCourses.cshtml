@@ -5,6 +5,7 @@
 @model TASHPAV11.Pages.Courses.ManageCoursesModel
 @{   
 }
+<script src="~/js/Courses.js"></script>
 
 
 
@@ -19,14 +20,10 @@
         <form method="post" asp-page-handler="ShowDeleteCourse">
             <button type="submit" value="Delete Course" class="btn btn-primary">Delete Course</button>
         </form>
-        @* <form method="post" asp-page-handler="ShowAddCourses">
-            <div id="List" style="@Model.DisplayList">@Html.Raw(@Model.List)</div>
-        </form> *@
+       
     </div>
 </div>
-@* <div class="row">
-    <div id="List" style="@Model.DisplayList">@Html.Raw(@Model.List)</div>
-</div> *@
+
 <div id="CourseTable" style="@Model.DisplayList">
 
 
@@ -38,7 +35,6 @@
                 <th>Course Name</th>
                 <th>Course Number</th>
                 <th>Teacher </th>
-
             </tr>
 
             @foreach (var course in Model.List)
@@ -57,13 +53,13 @@
 <div class="button-container">
     <div class="row">
         @* Add Insert part *@
-        <form method="post" asp-page-handler="InsertCourse">
+        <form method="post" asp-page-handler="InsertCourse" onsubmit="return checkInsertValidity()">
             <div id="active_input" style="@Model.active_input">
-                <input type="text" id="newCourseName" asp-for="newCourse.Course.CourseName" class="input_field" placeholder="Course Name" />
-                <input type="number" id="newCourseNumber" asp-for="newCourse.Course.CourseNumber" class="input_field" placeholder="Course Number" />
+                <input type="text" id="newCourseName" asp-for="newCourse.Course.CourseName" class="input_field notEmpty" placeholder="Course Name" />
+                <input type="number" id="newCourseNumber" asp-for="newCourse.Course.CourseNumber" class="input_field notEmpty" placeholder="Course Number" />
                 <input type="number" id="newCoursePererequisit" asp-for="newCourse.Course.Prerequisites_1" class="input_field" placeholder="Pererequisit 1" />
                 <input type="number" id="newCourseCredit" asp-for="newCourse.Course.Credits" class="input_field" placeholder="Course Credit" />
-                <input type="text" id="newCourseTeacher" asp-for="newCourse.Person.Name" class="input_field" placeholder="Teacher" />
+                <input type="text" id="newCourseTeacher" asp-for="newCourse.Person.Name" class="input_field notEmpty" placeholder="Teacher" />
                 
                 <label for="MathReq">Math Requirement</label>
                 <input type="radio" id="MathReq" name="Department" class="input_field" value="MathReq" checked />
@@ -72,7 +68,7 @@
                 <label for="Advance">Advance</label>
                 <input type="radio" id="Advance" name="Department" class="input_field" value="Advance" />
                
-                <button type="submit" value="Insert" id="submitNewButton" style="@Model.insert_button">
+                <button type="submit" value="Insert" id="submitNewButton" style="@Model.insert_button"  ">
                     Insert
                 </button>
                 <div style="color: red; font-size: 1.0em; position: absolute">
@@ -83,13 +79,23 @@
     </div>
     @* Delete part *@
     <form method="post" asp-page-handler="DeleteCourse">
-        <div id="delete_input" style="@Model.delete_input">
-            <input type="text" asp-for="dCourse.CourseName" class="input_field" placeholder="Course Name to Remove" />
-            <input type="text" asp-for="dCourse.CourseNumber" class="input_field" placeholder="Course Number to Remove" />
+        <div id="delete_input" style="@Model.delete_input"> 
+            <label for="CourseToDelete">Choose a course to delete:</label>
+            <select name="CourseToDelete" id="CourseTodelet" class="input_field">
+                  @foreach (var course in Model.List)
+                        {
+                            <option value="@course.Course.CId">
+                        Course Name: @course.Course.CourseName &nbsp&nbsp&nbsp&nbsp Course Number: @course.Course.CourseNumber &nbsp&nbsp&nbsp&nbsp Teacher: @course.Person.Name
+                            </option>
+                         }
+            </select>
             
+           
         </div>
         <div>
-            <input type="submit" value="Delete" id="deleteButton" style="@Model.deleteButton" />
+            <button type="submit" value="Delete" id="deleteButton" style="@Model.deleteButton" >
+                Delete 
+            </button>
             <div style="color: red; font-size: 1.0em; position: absolute">
                 @Model.deleteMSG
             </div>

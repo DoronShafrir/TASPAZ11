@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TASHPAV11.HModel;
 using TASHPAV11.Mapping;
 using TASHPAV11.Model;
-using CWP = TASHPAV11.HModel.CourseWithPerson;
+//using CWP = TASHPAV11.HModel.CourseWithPerson;
 
 namespace TASHPAV11.Pages.Courses
 {
@@ -24,7 +25,7 @@ namespace TASHPAV11.Pages.Courses
         [BindProperty]
         public Course dCourse { get; set; }
         [BindProperty]
-        public CWP newCourse { get; set; }
+        public CourseWithPerson newCourse { get; set; }
         
 
 
@@ -56,6 +57,7 @@ namespace TASHPAV11.Pages.Courses
             insert_button = "display:block";
             delete_input = "display:none";
             deleteButton = "display:none";
+            
         }
         public void OnPostShowDeleteCourse()
         {
@@ -64,6 +66,8 @@ namespace TASHPAV11.Pages.Courses
             insert_button = "display:none";
             delete_input = "display:block";
             deleteButton = "display:block";
+            CoursesDB db = new CoursesDB();
+            List = db.SelectAll();
         }
         public void OnPostInsertCourse(string Department)
         {
@@ -74,7 +78,11 @@ namespace TASHPAV11.Pages.Courses
             int records = db.Insert(newCourse);
             delete_input = "display:none";
             deleteButton = "display:none";
-            if (records == 1)
+            if (records == -1)
+            {
+                insertMSG = "Course with same name or number already exist";
+            }
+            else if (records == 1)
             {
                 insert_button = "disply:none";
                 insertMSG = "Course Added Successfuly";
@@ -82,7 +90,7 @@ namespace TASHPAV11.Pages.Courses
             else { insertMSG = "Could Not Add Course !!!"; }
             ;
         }
-        public void OnPostDeleteCourse()
+        public void OnPostDeleteCourse(int CourseToDelete)
         {
 
             DisplayList = "display:none";
@@ -93,7 +101,7 @@ namespace TASHPAV11.Pages.Courses
 
             CoursesDB db = new CoursesDB();
 
-            int records = db.DeleteCourse(dCourse);
+            int records = db.DeleteCourse(CourseToDelete);
             if (records == 1) { deleteMSG = "Course Deleted Successfuly"; }
             else { deleteMSG = "Could Not Delete Course !!!"; }
             ;
