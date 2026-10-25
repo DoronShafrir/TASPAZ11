@@ -3,6 +3,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 
+builder.Services.AddSingleton<AIService>(sp =>
+    new AIService(
+        builder.Configuration["OpenAI:Model"]!,
+        builder.Configuration["OpenAI:ApiKey"]!
+    )
+);
+
 // Add Session service
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
@@ -34,5 +41,7 @@ app.UseSession();
 app.MapRazorPages();
 
 app.Run();
+
+
 
 

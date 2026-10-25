@@ -19,10 +19,27 @@ namespace TASHPAV11.Mapping
         public CourseWithPersonList SelectAll()
         {
             CourseWithPersonList courses = new CourseWithPersonList();
-            const string sql = "SELECT  Courses.CId, Courses.CourseName, Courses.CourseNumber, Person.Name," +
-                                " Courses.Prerequisites_1, Courses.Prerequisites_2, Courses.Prerequisites_3, Courses.Credits, Courses.MathReq, Courses.ComuterReq, Courses.AdvancedSelection" +
-                                " FROM  ( ( CourseTeacher INNER JOIN [Courses] ON [Courses].[CId] = [CourseTeacher].[CourseId] )" +
-                                " INNER JOIN [Person] ON [CourseTeacher].[TeacherId] = [Person].[Id] );";
+            //const string sql = "SELECT  Courses.CId, Courses.CourseName, Courses.CourseNumber, Person.Name," +
+            //                    " Courses.Prerequisites_1, Courses.Prerequisites_2, Courses.Prerequisites_3, Courses.Credits, Courses.MathReq, Courses.ComuterReq, Courses.AdvancedSelection" +
+            //                    " FROM  ( ( CourseTeacher LEFT JOIN [Courses] ON [Courses].[CId] = [CourseTeacher].[CourseId] )" +
+            //                    " LEFT JOIN [Person] ON [CourseTeacher].[TeacherId] = [Person].[Id] );";
+            const string sql = @"SELECT  Courses.CId,
+    Courses.CourseName,
+    Courses.CourseNumber,
+    Person.Name,
+    Courses.Prerequisites_1,
+    Courses.Prerequisites_2,
+    Courses.Prerequisites_3,
+    Courses.Credits,
+    Courses.MathReq,
+    Courses.ComuterReq,
+    Courses.AdvancedSelection
+FROM
+    (Courses
+    LEFT JOIN CourseTeacher
+        ON Courses.CId = CourseTeacher.CourseId)
+    LEFT JOIN Person
+        ON CourseTeacher.TeacherId = Person.Id; ";
 
             using var connection = new OleDbConnection(connectionString);
             using var command = new OleDbCommand(sql, connection);
@@ -50,7 +67,7 @@ namespace TASHPAV11.Mapping
                     };
                     course.Person = new Person
                     {
-                        Name = reader["Name"].ToString()
+                        Name = reader["Name"] != DBNull.Value ? reader["Name"].ToString() : ""
                     };
                 }
 

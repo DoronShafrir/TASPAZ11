@@ -1,0 +1,37 @@
+﻿@page
+@model TASHPAV11.Pages.Admin.AIChatModel
+@{
+}
+<div class="container mt-4">
+
+    <h3>Ask OpenAI</h3>
+
+    <form method="post">
+
+        <label asp-for="Question" class="form-label">
+            Your question:
+        </label>
+
+        <textarea asp-for="Question"
+                  class="form-control"
+                  rows="4"></textarea>
+
+        <span asp-validation-for="Question"
+              class="text-danger"></span>
+
+        <button type="submit"
+                class="btn btn-primary mt-3">
+            Ask AI
+        </button>
+
+    </form>
+
+    @if (!string.IsNullOrEmpty(Model.Answer))
+    {
+        <div class="alert alert-light mt-4">
+            <h5>AI Answer:</h5>
+            <p style="white-space: pre-wrap">@Model.Answer</p>
+        </div>
+    }
+
+</div>

@@ -4,15 +4,19 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>e1251e33-3075-45d0-92ad-f96beac6cb70</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.81.0" />
     <PackageReference Include="System.Data.OleDb" Version="9.0.8" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="NewFolder\" />
+    <Folder Include="wwwroot\info\" />
   </ItemGroup>
 
 </Project>
