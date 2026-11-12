@@ -17,16 +17,16 @@ namespace TASHPAV11.Mapping
         {
             CourseWithPersonList courses = new CourseWithPersonList();
             string sql = string.Empty;
-            if (except)
+            if (except) //Show all the course that I am  registered to
             {
-                sql = $"SELECT  Courses.CId, Courses.CourseName, Courses.CourseNumber, Person.Name," +
+                sql = $"SELECT  Courses.CId, Courses.CourseName, Courses.CourseNumber, Student.Marks,Person.Name," +
                                " Courses.Prerequisites_1, Courses.Prerequisites_2, Courses.Prerequisites_3, Courses.Credits, Courses.MathReq, Courses.ComuterReq, Courses.AdvancedSelection" +
                                " FROM  ( ( [Student] INNER JOIN [Courses] ON [Courses].[CId] = [Student].[CourseId] )" +
                                "INNER JOIN [CourseTeacher] ON [Courses].[CId] = [CourseTeacher].[CourseId] )" +
                                " INNER JOIN [Person] ON [CourseTeacher].[TeacherId] = [Person].[Id] " +
                                $" WHERE {studentId} = [Student].[SId];";
             }
-            else
+            else //Show all the course that I am  NOT registered to
             {
                 sql = $"SELECT Courses.CId, Courses.CourseName, Courses.CourseNumber, Person.Name," +
                                " Courses.Prerequisites_1, Courses.Prerequisites_2, Courses.Prerequisites_3, Courses.Credits, Courses.MathReq, Courses.ComuterReq, Courses.AdvancedSelection" +
@@ -46,7 +46,7 @@ namespace TASHPAV11.Mapping
             {
                 CourseWithPerson course = new CourseWithPerson();
                 {
-                    course.Course = new Course
+                    course.course = new Course
                     {
                         CId = int.Parse(reader["CId"].ToString()),
                         CourseName = reader["CourseName"].ToString(),
@@ -59,10 +59,25 @@ namespace TASHPAV11.Mapping
                         ComuterReq = reader["ComuterReq"] != DBNull.Value ? bool.Parse(reader["ComuterReq"].ToString()) : false,
                         AdvancedSelection = reader["AdvancedSelection"] != DBNull.Value ? bool.Parse(reader["AdvancedSelection"].ToString()) : false
                     };
-                    course.Person = new Person
+
+                    course.person = new Person
                     {
                         Name = reader["Name"].ToString()
                     };
+                    if (except)
+                    { //Show all the course that I am  registered to
+                        course.student = new Student
+                        {
+                            Marks = reader["Marks"] != DBNull.Value ? int.Parse(reader["Marks"].ToString()) : 0
+                        };
+                    }
+                    else
+                    { //Show all the course that I am  NOT registered to
+                        course.student = new Student
+                        {
+                            Marks = 0
+                        };
+                    }
                 }
                 courses.Add(course);
             }

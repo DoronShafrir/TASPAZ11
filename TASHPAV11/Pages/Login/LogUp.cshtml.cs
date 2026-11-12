@@ -71,7 +71,7 @@ namespace TASHPAV11.Pages.Login
                     OleDbCommandBuilder builder = new OleDbCommandBuilder(adapter);
                     builder.QuotePrefix = "[";
                     builder.QuoteSuffix = "]";
-                    adapter.UpdateCommand = builder.GetInsertCommand();
+                    adapter.InsertCommand = builder.GetInsertCommand();
                     
                     // Push changes to the database
                     adapter.Update(ds, "names");         // InsertCommand will be used for Added rows

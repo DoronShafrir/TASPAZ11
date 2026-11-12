@@ -81,9 +81,9 @@ namespace TASHPAV11.Pages.Courses
         }
         public void OnPostInsertCourse(string Department)
         {
-            if (Department == "MathReq") { newCourse.Course.MathReq = true; newCourse.Course.ComuterReq = false; newCourse.Course.AdvancedSelection = false; }
-            if (Department == "ComputerReq") { newCourse.Course.MathReq = false; newCourse.Course.ComuterReq = true; newCourse.Course.AdvancedSelection = false; }
-            if (Department == "Advance") { newCourse.Course.MathReq = false; newCourse.Course.ComuterReq = false; newCourse.Course.AdvancedSelection = true; }
+            if (Department == "MathReq") { newCourse.course.MathReq = true; newCourse.course.ComuterReq = false; newCourse.course.AdvancedSelection = false; }
+            if (Department == "ComputerReq") { newCourse.course.MathReq = false; newCourse.course.ComuterReq = true; newCourse.course.AdvancedSelection = false; }
+            if (Department == "Advance") { newCourse.course.MathReq = false; newCourse.course.ComuterReq = false; newCourse.course.AdvancedSelection = true; }
             CoursesDB db = new CoursesDB();
             int records = db.Insert(newCourse);
             delete_input = "display:none";

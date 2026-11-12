@@ -52,7 +52,7 @@ FROM
             {
                 CourseWithPerson course = new CourseWithPerson();
                 {
-                    course.Course = new Course
+                    course.course = new Course
                     {
                         CId = int.Parse(reader["CId"].ToString()),
                         CourseName = reader["CourseName"].ToString(),
@@ -65,7 +65,7 @@ FROM
                         ComuterReq = reader["ComuterReq"] != DBNull.Value ? bool.Parse(reader["ComuterReq"].ToString()) : false,
                         AdvancedSelection = reader["AdvancedSelection"] != DBNull.Value ? bool.Parse(reader["AdvancedSelection"].ToString()) : false
                     };
-                    course.Person = new Person
+                    course.person = new Person
                     {
                         Name = reader["Name"] != DBNull.Value ? reader["Name"].ToString() : ""
                     };
@@ -80,7 +80,7 @@ FROM
 
         public int Insert(CWP course)
         {
-            int techerId = CheckName(course.Person.Name);
+            int techerId = CheckName(course.person.Name);
             if (techerId == 0) return 0;
 
             using var connection = new OleDbConnection(connectionString);
@@ -91,8 +91,8 @@ FROM
            
             using (OleDbCommand cmd = new OleDbCommand(sql, connection))
             {
-                cmd.Parameters.AddWithValue("?", course.Course.CourseName.Trim());
-                cmd.Parameters.AddWithValue("?", course.Course.CourseNumber);
+                cmd.Parameters.AddWithValue("?", course.course.CourseName.Trim());
+                cmd.Parameters.AddWithValue("?", course.course.CourseNumber);
 
                 object result = cmd.ExecuteScalar();
                 if (result != null && result != DBNull.Value)
@@ -117,15 +117,15 @@ FROM
 
                 using (OleDbCommand cmd = new OleDbCommand(sql1, connection, transaction))
                 {
-                    cmd.Parameters.AddWithValue("?", course.Course.CourseName);
-                    cmd.Parameters.AddWithValue("?", course.Course.CourseNumber);
-                    cmd.Parameters.AddWithValue("?", course.Course.Prerequisites_1);
-                    cmd.Parameters.AddWithValue("?", course.Course.Prerequisites_2);
-                    cmd.Parameters.AddWithValue("?", course.Course.Prerequisites_3);
-                    cmd.Parameters.AddWithValue("?", course.Course.Credits);
-                    cmd.Parameters.AddWithValue("?", course.Course.MathReq);
-                    cmd.Parameters.AddWithValue("?", course.Course.ComuterReq);
-                    cmd.Parameters.AddWithValue("?", course.Course.AdvancedSelection);
+                    cmd.Parameters.AddWithValue("?", course.course.CourseName);
+                    cmd.Parameters.AddWithValue("?", course.course.CourseNumber);
+                    cmd.Parameters.AddWithValue("?", course.course.Prerequisites_1);
+                    cmd.Parameters.AddWithValue("?", course.course.Prerequisites_2);
+                    cmd.Parameters.AddWithValue("?", course.course.Prerequisites_3);
+                    cmd.Parameters.AddWithValue("?", course.course.Credits);
+                    cmd.Parameters.AddWithValue("?", course.course.MathReq);
+                    cmd.Parameters.AddWithValue("?", course.course.ComuterReq);
+                    cmd.Parameters.AddWithValue("?", course.course.AdvancedSelection);
 
                     cmd.ExecuteNonQuery();
                 }

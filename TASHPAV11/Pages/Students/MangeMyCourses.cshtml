@@ -32,6 +32,7 @@
                 <th>Student Name</th>
                 <th>Course Name</th>
                 <th>Teacher </th>
+                <th>Marks </th>
 
 
             </tr>
@@ -39,10 +40,11 @@
             @foreach (var student in Model.List)
             {
                 <tr>
-                    <td>@student.Course.CId</td>
+                    <td>@student.course.CId</td>
                     <td>@Model.studentName</td>
-                    <td>@student.Course.CourseName</td>
-                    <td>@student.Person.Name</td>
+                    <td>@student.course.CourseName</td>
+                    <td>@student.person.Name</td>
+                    <td>@student.student.Marks</td>
 
                 </tr>
             }
@@ -72,15 +74,15 @@
                     @foreach (CourseWithPerson course in Model.List)
                     {
                         <tr>
-                            <td>@course.Course.CId</td>
-                            <td>@course.Course.CourseName</td>
-                            <td>@course.Course.CourseNumber</td>
-                            <td>@course.Person.Name</td>
+                            <td>@course.course.CId</td>
+                            <td>@course.course.CourseName</td>
+                            <td>@course.course.CourseNumber</td>
+                            <td>@course.person.Name</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
 
                                     <form method="post" asp-page-handler="InsertCourse" style="display:inline;">
-                                        <input type="hidden" name="CourseToAdd" value="@course.Course.CId" />
+                                        <input type="hidden" name="CourseToAdd" value="@course.course.CId" />
                                         <button type="submit" class="btn btn-light btn-sm"
                                                 onclick="return confirm('Are you sure you want to add this course');">
                                             Add
@@ -116,14 +118,14 @@
                         @foreach (CourseWithPerson course in Model.List)
                         {
                             <tr>
-                                <td>@course.Course.CId</td>
-                                <td>@course.Course.CourseName</td>
-                                <td>@course.Course.CourseNumber</td>
-                                <td>@course.Person.Name</td>
+                                <td>@course.course.CId</td>
+                                <td>@course.course.CourseName</td>
+                                <td>@course.course.CourseNumber</td>
+                                <td>@course.person.Name</td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
                                         <form method="post" asp-page-handler="DeleteCourse" style="display:inline;">
-                                            <input type="hidden" name="CourseToDelete" value="@course.Course.CId" />
+                                            <input type="hidden" name="CourseToDelete" value="@course.course.CId" />
                                             <button type="submit" class="btn btn-light btn-sm"
                                                     onclick="return confirm('Are you sure you want to add this course');">
                                                Delete

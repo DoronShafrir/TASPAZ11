@@ -68,7 +68,7 @@ namespace TASHPAV11.Pages.Students
             deleteButton = "display:none";
             int studentId = int.Parse((HttpContext.Session.GetString("PersonId")).ToString());
             StudentsDB db = new StudentsDB();
-            List = db.StudentSelectAll(studentId, false);
+            List = db.StudentSelectAll(studentId, false); //Show all the course that I am  not registered to
         }
         public void OnPostShowDeleteCourse()
         {

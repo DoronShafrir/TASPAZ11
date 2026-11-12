@@ -40,10 +40,10 @@
             @foreach (var course in Model.List)
             {
                 <tr>
-                    <td>@course.Course.CId</td>
-                    <td>@course.Course.CourseName</td>
-                    <td>@course.Course.CourseNumber</td>
-                    <td>@course.Person.Name</td>
+                    <td>@course.course.CId</td>
+                    <td>@course.course.CourseName</td>
+                    <td>@course.course.CourseNumber</td>
+                    <td>@course.person.Name</td>
                 </tr>
             }
 
@@ -55,11 +55,11 @@
         @* Add Insert part *@
         <form method="post" asp-page-handler="InsertCourse" onsubmit="return checkInsertValidity()">
             <div id="active_input" style="@Model.active_input">
-                <input type="text" id="newCourseName" asp-for="newCourse.Course.CourseName" class="input_field notEmpty" placeholder="Course Name" />
-                <input type="number" id="newCourseNumber" asp-for="newCourse.Course.CourseNumber" class="input_field notEmpty" placeholder="Course Number" />
-                <input type="number" id="newCoursePererequisit" asp-for="newCourse.Course.Prerequisites_1" class="input_field" placeholder="Pererequisit 1" />
-                <input type="number" id="newCourseCredit" asp-for="newCourse.Course.Credits" class="input_field" placeholder="Course Credit" />
-                <input type="text" id="newCourseTeacher" asp-for="newCourse.Person.Name" class="input_field notEmpty" placeholder="Teacher" />
+                <input type="text" id="newCourseName" asp-for="newCourse.course.CourseName" class="input_field notEmpty" placeholder="Course Name" />
+                <input type="number" id="newCourseNumber" asp-for="newCourse.course.CourseNumber" class="input_field notEmpty" placeholder="Course Number" />
+                <input type="number" id="newCoursePererequisit" asp-for="newCourse.course.Prerequisites_1" class="input_field" placeholder="Pererequisit 1" />
+                <input type="number" id="newCourseCredit" asp-for="newCourse.course.Credits" class="input_field" placeholder="Course Credit" />
+                <input type="text" id="newCourseTeacher" asp-for="newCourse.person.Name" class="input_field notEmpty" placeholder="Teacher" />
                 
                 <label for="MathReq">Math Requirement</label>
                 <input type="radio" id="MathReq" name="Department" class="input_field" value="MathReq" checked />
@@ -68,7 +68,7 @@
                 <label for="Advance">Advance</label>
                 <input type="radio" id="Advance" name="Department" class="input_field" value="Advance" />
                
-                <button type="submit" value="Insert" id="submitNewButton" style="@Model.insert_button"  ">
+                <button type="submit" value="Insert" id="submitNewButton" style="@Model.insert_button">
                     Insert
                 </button>
                 <div style="color: red; font-size: 1.0em; position: absolute">
@@ -84,8 +84,8 @@
             <select name="CourseToDelete" id="CourseTodelet" class="input_field">
                   @foreach (var course in Model.List)
                         {
-                            <option value="@course.Course.CId">
-                        Course Name: @course.Course.CourseName &nbsp&nbsp&nbsp&nbsp Course Number: @course.Course.CourseNumber &nbsp&nbsp&nbsp&nbsp Teacher: @course.Person.Name
+                            <option value="@course.course.CId">
+                        Course Name: @course.course.CourseName &nbsp&nbsp&nbsp&nbsp Course Number: @course.course.CourseNumber &nbsp&nbsp&nbsp&nbsp Teacher: @course.person.Name
                             </option>
                          }
             </select>
