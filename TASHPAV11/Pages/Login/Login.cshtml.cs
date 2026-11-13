@@ -23,15 +23,17 @@ namespace TASHPAV11.Pages.Login
         }
         public IActionResult OnPost(string userName, string password)
         {
-
+            HttpContext.Session.SetString("Username", "");
             string connectionString = Imp_Data.ConString;
             
             OleDbConnection con = new(connectionString);
             
             // בניית פקודת SQL
-            string SQLStr = $"SELECT * FROM [Person] WHERE [UserName] = '{userName}' AND [Password] = '{password}';";
+            string SQLStr = $"SELECT * FROM [Person] WHERE [UserName] = ? AND [Password] = ?;";
             OleDbCommand cmd = new(SQLStr, con);
-           
+            cmd.Parameters.AddWithValue("?", userName);
+            cmd.Parameters.AddWithValue("?", password);
+
 
             // בניית DataSet
             DataSet ds = new DataSet();
@@ -52,10 +54,12 @@ namespace TASHPAV11.Pages.Login
                 person.FName = ds.Tables[0].Rows[0]["FName"].ToString();
                 person.UserName = ds.Tables[0].Rows[0]["UserName"].ToString();
                 person.Admin = bool.Parse(ds.Tables[0].Rows[0]["Admin"].ToString());
+                person.Teacher = bool.Parse(ds.Tables[0].Rows[0]["Teacher"].ToString());
                 string IsAdmin = person.Admin == true ? "Admin" : "NotAdmin";
-                //int SId = person.Teacher == true ? 0 : person.Id;
-
+                string IsTeacher = person.Teacher == true ? "Teacher" : "NotTeacher";
+                
                 HttpContext.Session.SetString("Admin", IsAdmin);
+                HttpContext.Session.SetString("Teacher", IsTeacher);
                 HttpContext.Session.SetString("PersonId", person.Id.ToString());
                 HttpContext.Session.SetString("Username", person.UserName);
                 HttpContext.Session.SetString("FirstName", person.Name);
