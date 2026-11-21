@@ -5,11 +5,12 @@ namespace TASHPAV11.HModel
 {
     public  class CourseWithPerson
     {
-        public  Course course { get; set; }
-        public  Person person { get; set; } 
-        public Student student { get; set; }
+        public Person person { get; set; } = new Person();
+        public Course course { get; set; } = new Course();
+        public Student student { get; set; } = new Student();
     }
 }
+
 public  class CourseWithPersonList : List<CourseWithPerson>
 {
     public CourseWithPersonList() { }

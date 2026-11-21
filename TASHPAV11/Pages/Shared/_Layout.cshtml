@@ -43,7 +43,12 @@
                             <div class="dropdown d-inline-flex justify-content-around ">
                                 <a class="btn  dropdown-toggle text-dark " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Courses</a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="nav-link text-dark" href="~/Courses/ManageCourses">Manage Courses</a></li>
+                                    <li>
+                                        <a class="nav-link text-dark" href="~/Courses/ManageCourses">Manage Courses</a>
+                                    </li>
+                                    <li>
+                                        <a class="nav-link text-dark" href="~/Courses/ManageMarks">Manage Marks</a>
+                                    </li>
 
                                 </ul>
                             </div>
@@ -94,7 +99,7 @@
             const IsAdmin = '@sessionAdmin';
             const IsTeacher = '@sessionTeacher';
             const IsUser = '@sessionValue';
-            // Hide all elements with the class "user-admin" by default 
+            // Hide all elements with the class "user-admin" by default
             document.querySelectorAll(".user-admin").forEach(element => {
                 element.style.display = 'none';
             });
@@ -121,8 +126,8 @@
                     element.style.display = 'block';
                 });
             }
-            
-          
+
+
     </script>
 
     

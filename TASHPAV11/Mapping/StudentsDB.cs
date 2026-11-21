@@ -84,18 +84,20 @@ namespace TASHPAV11.Mapping
 
             return courses;
         }
+        
 
         public int Insert(int SId, int CourseId)
         {
 
             int records = 0;
 
-            string sql = $"INSERT INTO Student ([SId], [CourseId]) VALUES (?,?);";
+            string sql = $"INSERT INTO Student ([SId], [CourseId], [Marks]) VALUES (?, ?, 0);";
             using var connection = new OleDbConnection(connectionString);
             using (OleDbCommand cmd = new OleDbCommand(sql, connection))
             {
                 cmd.Parameters.AddWithValue("?", SId.ToString());
                 cmd.Parameters.AddWithValue("?", CourseId.ToString());
+               
 
                 connection.Open();
 

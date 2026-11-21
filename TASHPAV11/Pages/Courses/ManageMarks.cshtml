@@ -1,0 +1,105 @@
+﻿@page
+@using TASHPAV11.HModel
+@model TASHPAV11.Pages.Courses.ManageMarksModel
+@{
+}
+@{
+    var sessionAdmin = HttpContext.Session.GetString("Admin");
+    var sessionTeacher = HttpContext.Session.GetString("Teacher");
+    if (sessionAdmin != "Admin" && sessionTeacher != "Teacher")
+    {
+        Response.Redirect("/Index");
+    }
+}
+<div class="container my-5">
+    <div class="d-flex justify-content-between gap-3">
+        <form method="get" asp-page-handler="RenderCourses">
+            <button type="submit" value="Show All My Courses" class="btn btn-primary">Show All My Courses</button>
+        </form>
+        <form method="post" asp-page-handler="ShowCourseByTeacher">
+            <button type="submit" value="Add Course" class="btn btn-primary">Show Students by Course</button>
+        </form>
+        <form method="post" asp-page-handler="ShowDeleteCourse">
+            <button type="submit" value="Delete Course" class="btn btn-primary">Change Add Marks</button>
+        </form>
+    </div>
+
+</div>
+@* Show table of course to the specific Teacher *@
+<div class="button-container">
+    <div class="row">
+        <div id="CourseTable" style="@Model.display_list">
+            @if (Model.courseList != null && Model.courseList.Count > 0)
+            {
+
+                <table class='table table-bordered table-striped fw-bold'>
+                    <tr>
+                        <th style="width: 10%;"> ID</th>
+                        <th style="width: 30%;">Course Name</th>
+                        <th style="width: 20%;">Course Number</th>
+                        <th style="width: 30%;">Teacher </th>
+                    </tr>
+
+                    @foreach (var course in Model.courseList)
+                    {
+                        <tr>
+                            <td>@course.course.CId</td>
+                            <td>@course.course.CourseName</td>
+                            <td>@course.course.CourseNumber</td>
+                            <td>@course.person.Name</td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
+    </div>
+</div>
+@* This view show all students in a specific course *@
+<form method="post" asp-page-handler="RenderStudentsBycourse">
+    <div id="show_input" style="@Model.show_students">
+        <label for="CourseToShow">Choose a course to show:</label>
+        <select name="CourseToShow" id="CourseToShow" class="input_field">
+            @foreach (var course in Model.courseList)
+            {
+                <option value="@course.course.CId">
+                    Course Name: @course.course.CourseName &nbsp&nbsp&nbsp&nbsp Course Number: @course.course.CourseNumber &nbsp&nbsp&nbsp&nbsp Teacher: @course.person.Name
+                </option>
+            }
+        </select>
+    </div>
+    <div>
+        <button type="submit" value="Show Students" id="ShowStudents" style="@Model.show_button">
+            Show by Student
+        </button>
+    </div>
+
+</form>
+@* Show table of course to the specific Teacher *@
+<div class="button-container">
+    <div class="row">
+        <div id="CourseTable" style="@Model.display_student">
+            @if (Model.courseList != null && Model.courseList.Count > 0)
+            {
+
+                <table class='table table-bordered table-striped fw-bold'>
+                    <tr>
+                        <th style="width: 10%;"> ID</th>
+                        <th style="width: 30%;">Student Name</th>
+                        <th style="width: 20%;">Course Credits</th>
+                        <th style="width: 30%;">Marks </th>
+                    </tr>
+
+                    @foreach (var course in Model.courseList)
+                    {
+                        <tr>
+                            <td>@course.person.Id</td>
+                            <td>@course.person.Name</td>
+                            <td>@course.course.Credits</td>
+                            <td>@course.student.Marks</td>
+                        </tr>
+                    }
+                </table>
+            }
+        </div>
+    </div>
+</div>
